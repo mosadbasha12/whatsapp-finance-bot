@@ -72,6 +72,29 @@ https://your-ngrok-url.ngrok-free.app/webhook
 
 واختر HTTP POST.
 
+## بديل Twilio: Meta WhatsApp Cloud API
+
+إذا كان Twilio غير مستقر معك، يمكنك استخدام Meta WhatsApp Cloud API مباشرة.
+
+أضف المتغيرات التالية في Vercel بدل متغيرات Twilio:
+
+```env
+META_WHATSAPP_TOKEN=...
+META_PHONE_NUMBER_ID=...
+META_VERIFY_TOKEN=اي_كلمة_سر_تختارها
+GOOGLE_SHEET_ID=...
+GOOGLE_SERVICE_ACCOUNT_KEY=...
+```
+
+في Meta Developers > WhatsApp > Configuration ضع:
+
+```text
+Callback URL: https://your-project.vercel.app/webhook
+Verify token: نفس قيمة META_VERIFY_TOKEN
+```
+
+ثم اشترك في webhook field باسم `messages`.
+
 ## التشغيل
 
 انسخ ملف البيئة:
