@@ -120,6 +120,39 @@ https://your-render-service.onrender.com/webhook
 
 واختر HTTP POST.
 
+## النشر على Vercel بدون دفع
+
+إذا كان Render يطلب كارت، يمكن نشر البوت على Vercel Hobby كتجربة مجانية.
+
+المشروع يحتوي على:
+
+- `app.js`: Express app مشترك
+- `api/webhook.js`: Vercel serverless entrypoint
+- `vercel.json`: تحويل `/webhook` إلى `/api/webhook`
+
+خطوات النشر:
+
+1. افتح Vercel واعمل Import للـ GitHub repo.
+2. Framework Preset: اختر Other.
+3. اترك Build Command فارغًا أو `npm install`.
+4. أضف Environment Variables:
+
+```env
+TWILIO_SID=...
+TWILIO_TOKEN=...
+TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
+GOOGLE_SHEET_ID=...
+GOOGLE_SERVICE_ACCOUNT_KEY=...
+```
+
+5. بعد النشر، ضع رابط Twilio webhook:
+
+```text
+https://your-project.vercel.app/webhook
+```
+
+ملاحظة: Vercel serverless لا يضمن بقاء الذاكرة بين كل الطلبات، لذلك in-memory sessions مناسبة للتجربة فقط. للإنتاج الأفضل تخزين الجلسات في Google Sheets أو Redis.
+
 ## أمثلة رسائل
 
 عرض القائمة:
