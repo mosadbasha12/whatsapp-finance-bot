@@ -48,6 +48,41 @@ async function sendViaMeta(to, message) {
   return response.json();
 }
 
+async function sendMetaTemplate(to, templateName = 'hello_world', languageCode = 'en_US') {
+  if (!hasMetaConfig()) {
+    throw new Error('Meta WhatsApp config is missing');
+  }
+
+  const response = await fetch(
+    `https://graph.facebook.com/v20.0/${process.env.META_PHONE_NUMBER_ID}/messages`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.META_WHATSAPP_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to: normalizeMetaRecipient(to),
+        type: 'template',
+        template: {
+          name: templateName,
+          language: {
+            code: languageCode
+          }
+        }
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Meta WhatsApp template send failed: ${response.status} ${errorBody}`);
+  }
+
+  return response.json();
+}
+
 async function sendViaTwilio(to, message) {
   return getTwilioClient().messages.create({
     from: process.env.TWILIO_WHATSAPP_FROM,
@@ -65,5 +100,6 @@ async function sendWhatsApp(to, message) {
 }
 
 module.exports = {
-  sendWhatsApp
+  sendWhatsApp,
+  sendMetaTemplate
 };

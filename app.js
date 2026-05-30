@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const { handleIncomingMessage } = require('./bot');
-const { sendWhatsApp } = require('./whatsapp');
+const { sendMetaTemplate, sendWhatsApp } = require('./whatsapp');
 
 const app = express();
 
@@ -26,6 +26,30 @@ app.get('/webhook', (req, res) => {
   }
 
   return res.sendStatus(403);
+});
+
+app.get('/send-test', async (req, res) => {
+  const secret = req.query.secret;
+  const to = req.query.to || process.env.TEST_WHATSAPP_TO;
+
+  if (!process.env.TEST_SEND_SECRET || secret !== process.env.TEST_SEND_SECRET) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
+  if (!to) {
+    return res.status(400).json({ error: 'Missing to' });
+  }
+
+  try {
+    const result = await sendMetaTemplate(to);
+    return res.json({ ok: true, result });
+  } catch (error) {
+    console.error('Test send error:', error);
+    return res.status(500).json({
+      ok: false,
+      error: error.message
+    });
+  }
 });
 
 app.post('/webhook', async (req, res) => {
