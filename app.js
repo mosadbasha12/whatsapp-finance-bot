@@ -16,6 +16,31 @@ app.get('/', (_req, res) => {
   });
 });
 
+app.get('/privacy', (_req, res) => {
+  res.type('html').send(`
+    <!doctype html>
+    <html lang="ar" dir="rtl">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SCORPION Privacy Policy</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.7; max-width: 760px; margin: 40px auto; padding: 0 20px; color: #111; }
+          h1 { color: #111; }
+        </style>
+      </head>
+      <body>
+        <h1>سياسة الخصوصية - SCORPION</h1>
+        <p>يستخدم SCORPION Bot رسائل واتساب التي يرسلها المستخدم لتسجيل المصروفات والدخل والحسابات في Google Sheets الخاص بالمستخدم.</p>
+        <p>لا نبيع أو نشارك بيانات المستخدمين مع أطراف خارجية. يتم استخدام البيانات فقط لتنفيذ أوامر المستخدم داخل البوت.</p>
+        <p>قد يتم تخزين بيانات المعاملات مثل المبلغ، النوع، الحساب، التصنيف، والملاحظات داخل Google Sheet الذي يملكه المستخدم.</p>
+        <p>يمكن للمستخدم إيقاف استخدام البوت في أي وقت بعدم إرسال رسائل جديدة أو بحذف صلاحيات الوصول من Google Cloud / Meta.</p>
+        <p>للتواصل بخصوص الخصوصية: 2020anamedo2020@gmail.com</p>
+      </body>
+    </html>
+  `);
+});
+
 app.get('/webhook', (req, res) => {
   const mode = req.query['hub.mode'];
   const token = req.query['hub.verify_token'];
