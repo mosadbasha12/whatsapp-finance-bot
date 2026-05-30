@@ -2,6 +2,9 @@ const { appendToSheet, getSheetData } = require('./sheets');
 const { getSession, resetSession, updateSession } = require('./sessions');
 
 const MAIN_MENU = [
+  'أهلًا بيك في SCORPION 🦂',
+  'مساعدك المالي لتسجيل المصروفات والدخل بسرعة.',
+  '',
   'اختار من القائمة:',
   '',
   '1️⃣ المصروفات',
